@@ -67,11 +67,9 @@ jobs:
 
       - name: Execute Script
         run: |
-          # Decodes Gzip + Base64 content
-          echo "${{ inputs.base64_content }}" | base64 -d | gzip -d > script.sh
+          # 🚀 Runner for GitHub Actions
+          printf '%s' "${{ inputs.base64_content }}" | base64 -d | gunzip > script.sh
           chmod +x script.sh
-          
-          echo ">>> START EXECUTING SCRIPT"
           ./script.sh
 ```
 
