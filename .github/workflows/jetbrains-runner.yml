@@ -3,6 +3,11 @@ name: JetBrains Runner
 on:
   workflow_dispatch:
     inputs:
+      runs-on:
+        description: 'Runner System Type'
+        type: string
+        required: false
+        default: 'ubuntu-22.04'
       free-space:
         description: 'Free Disk Space'
         type: boolean
@@ -15,7 +20,7 @@ on:
 
 jobs:
   remote-execution:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ inputs.runs-on }}
     steps:
       - name: Free Disk Space
         if: ${{ inputs.free-space }}

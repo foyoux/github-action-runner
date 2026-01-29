@@ -28,6 +28,7 @@ Before use, you must configure your GitHub credentials and target repository.
 3. **Repository**: The target GitHub repository in `owner/repo` format (e.g., `foyoux/github-action-runner`).
 4. **Branch**: The default branch to trigger the workflow on (e.g., `main`).
 5. **Workflow Filename**: The name of the workflow file (default: `jetbrains-runner.yml`).
+6. **Runs On**: The system type for the runner (default: `ubuntu-22.04`).
 
 ## Workflow Setup
 
@@ -39,6 +40,11 @@ name: JetBrains Runner
 on:
   workflow_dispatch:
     inputs:
+      runs-on:
+        description: 'Runner System Type'
+        type: string
+        required: false
+        default: 'ubuntu-22.04'
       free-space:
         description: 'Free Disk Space'
         type: boolean
@@ -51,7 +57,7 @@ on:
 
 jobs:
   remote-execution:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ inputs.runs-on }}
     steps:
       - name: Free Disk Space
         if: ${{ inputs.free-space }}

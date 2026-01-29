@@ -19,6 +19,7 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     var ghRepository: String = "" // merged owner/repo
     var ghBranch: String = "main"
     var workflowFile: String = "jetbrains-runner.yml"
+    var runsOn: String = "ubuntu-22.04"
 
     // Helper to access token securely
     fun setGhToken(token: String?) {

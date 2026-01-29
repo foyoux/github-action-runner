@@ -21,6 +21,7 @@ class GithubService {
         val repository = settings.ghRepository
         val branch = settings.ghBranch
         val workflowFile = settings.workflowFile
+        val runsOn = settings.runsOn
 
         validateConfig(token, repository, branch, workflowFile)
 
@@ -28,7 +29,8 @@ class GithubService {
         
         val inputs = mapOf(
             "free-space" to freeSpace.toString(),
-            "base64_content" to encodedContent
+            "base64_content" to encodedContent,
+            "runs-on" to runsOn
         )
 
         val payload = DispatchPayload(ref = branch, inputs = inputs)
