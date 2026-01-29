@@ -7,7 +7,7 @@ Ideal for tasks requiring high bandwidth (e.g., Docker image mirroring) or speci
 
 ## Features
 
-- **Execute Selection**: Select any text (Shell script, Docker commands, etc.) in the editor and run it on GitHub Actions.
+- **Execute Selection**: Select any text (Shell, Python, Node.js, etc.) in the editor and run it on GitHub Actions.
 - **Execute File**: Right-click any file to run its content.
 - **Free Disk Space**: Optional mode to free up disk space on the GitHub Runner before execution.
 - **Secure Configuration**: GitHub Token is stored securely using the IDE's Credential Store.
@@ -29,6 +29,17 @@ Before use, you must configure your GitHub credentials and target repository.
 4. **Branch**: The default branch to trigger the workflow on (e.g., `main`).
 5. **Workflow Filename**: The name of the workflow file (default: `jetbrains-runner.yml`).
 6. **Runs On**: The system type for the runner (default: `ubuntu-22.04`).
+
+## Script Support
+
+This plugin supports any interpreted language available in the GitHub Actions runner environment (Bash, Python, Node.js, Perl, Ruby, etc.).
+
+**Important:** To execute non-shell scripts, you **must** include a valid shebang at the top of your selection or file.
+
+Examples:
+- **Python**: `#!/usr/bin/env python3`
+- **Node.js**: `#!/usr/bin/env node`
+- **Bash**: `#!/bin/bash` (Default implication if omitted, but recommended)
 
 ## Workflow Setup
 
