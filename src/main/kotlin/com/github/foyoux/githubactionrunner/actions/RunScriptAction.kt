@@ -33,7 +33,7 @@ abstract class RunScriptAction : AnAction() {
         
         // 1. Validate Configuration
         val settings = AppSettingsState.instance
-        if (settings.getGhToken().isNullOrBlank() || settings.ghRepository.isBlank()) {
+        if (settings.retrieveGhToken().isNullOrBlank() || settings.ghRepository.isBlank()) {
             notify("GitHub Action Runner", "Please configure GitHub Token and Repository.", NotificationType.ERROR) {
                  ShowSettingsUtil.getInstance().showSettingsDialog(project, AppSettingsConfigurable::class.java)
             }

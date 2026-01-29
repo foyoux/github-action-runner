@@ -17,7 +17,7 @@ class GithubService {
 
     fun triggerWorkflow(content: String, freeSpace: Boolean) {
         val settings = AppSettingsState.instance
-        val token = settings.getGhToken()
+        val token = settings.retrieveGhToken()
         val repository = settings.ghRepository
         val branch = settings.ghBranch
         val workflowFile = settings.workflowFile
@@ -56,7 +56,7 @@ class GithubService {
     
     fun getLatestRunId(afterTimestamp: Long): Long? {
         val settings = AppSettingsState.instance
-        val token = settings.getGhToken()
+        val token = settings.retrieveGhToken()
         val repository = settings.ghRepository
         val branch = settings.ghBranch
         val workflowFile = settings.workflowFile
@@ -105,7 +105,7 @@ class GithubService {
     
     fun getJobUrl(runId: Long): String? {
         val settings = AppSettingsState.instance
-        val token = settings.getGhToken()
+        val token = settings.retrieveGhToken()
         val repository = settings.ghRepository
         
         val url = "https://api.github.com/repos/$repository/actions/runs/$runId/jobs"

@@ -7,9 +7,12 @@ import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import javax.swing.JComponent
 
+import com.intellij.openapi.application.ApplicationManager
+
 class AppSettingsConfigurable : Configurable {
 
     private var settingsPanel: DialogPanel? = null
+    private var myToken: String = ""
 
     override fun getDisplayName(): String = "Runner for GitHub Actions"
 
@@ -21,8 +24,8 @@ class AppSettingsConfigurable : Configurable {
                 row("GitHub Token:") {
                     passwordField()
                         .bindText(
-                            { settings.getGhToken() ?: "" },
-                            { settings.setGhToken(it) }
+                            { myToken },
+                            { myToken = it }
                         )
                         .comment("Personal Access Token with 'repo' scope.")
                 }
@@ -65,10 +68,24 @@ class AppSettingsConfigurable : Configurable {
 
     override fun apply() {
         settingsPanel?.apply()
+        AppSettingsState.instance.saveGhToken(myToken)
     }
 
     override fun reset() {
+        val settings = AppSettingsState.instance
+        // Reset non-token fields immediately
         settingsPanel?.reset()
+        
+        // Load token asynchronously
+        ApplicationManager.getApplication().executeOnPooledThread {
+            val token = settings.retrieveGhToken() ?: ""
+            ApplicationManager.getApplication().invokeLater {
+                if (settingsPanel != null) {
+                    myToken = token
+                    settingsPanel?.reset()
+                }
+            }
+        }
     }
 
     override fun disposeUIResources() {

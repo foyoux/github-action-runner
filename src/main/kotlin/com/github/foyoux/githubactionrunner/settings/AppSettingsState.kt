@@ -22,13 +22,13 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     var runsOn: String = "ubuntu-22.04"
 
     // Helper to access token securely
-    fun setGhToken(token: String?) {
+    fun saveGhToken(token: String?) {
         val attributes = createCredentialAttributes()
         val credentials = if (token != null) Credentials("GitHubToken", token) else null
         PasswordSafe.instance.set(attributes, credentials)
     }
 
-    fun getGhToken(): String? {
+    fun retrieveGhToken(): String? {
         val attributes = createCredentialAttributes()
         val credentials = PasswordSafe.instance.get(attributes)
         return credentials?.getPasswordAsString()
