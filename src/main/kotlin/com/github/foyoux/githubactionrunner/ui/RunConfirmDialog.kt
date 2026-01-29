@@ -12,11 +12,12 @@ import java.awt.Dimension
 
 class RunConfirmDialog(
     project: Project,
-    private val scriptContent: String
+    private val scriptContent: String,
+    private val titleText: String = "Confirm Run on GitHub Actions"
 ) : DialogWrapper(project) {
 
     init {
-        title = "Confirm Run on GitHub Actions"
+        title = titleText
         init()
     }
 

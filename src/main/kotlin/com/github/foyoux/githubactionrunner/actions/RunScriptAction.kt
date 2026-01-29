@@ -78,7 +78,8 @@ abstract class RunScriptAction : AnAction() {
         }
         
         // 3. Confirm Dialog (Custom UI)
-        val dialog = RunConfirmDialog(project, contentToRun)
+        val title = if (freeSpace) "Confirm Run on GitHub Actions (Free Disk Space)" else "Confirm Run on GitHub Actions"
+        val dialog = RunConfirmDialog(project, contentToRun, title)
         if (!dialog.showAndGet()) return
 
         // 4. Execute
