@@ -1,0 +1,38 @@
+name: JetBrains Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      free-space:
+        description: 'Free Disk Space'
+        type: boolean
+        required: false
+        default: false
+      base64_content:
+        description: 'Gzipped & Base64 encoded script'
+        type: string
+        required: true
+
+jobs:
+  remote-execution:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Free Disk Space
+        if: ${{ inputs.free-space }}
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      - name: Execute Script
+        run: |
+          echo "${{ inputs.base64_content }}" | base64 -d | gzip -d > script.sh
+          chmod +x script.sh
+          
+          echo ">>> START EXECUTING SCRIPT"
+          ./script.sh

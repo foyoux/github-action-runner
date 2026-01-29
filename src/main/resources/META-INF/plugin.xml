@@ -1,0 +1,35 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>com.github.foyoux.githubactionrunner</id>
+    <name>Runner for GitHub Actions</name>
+    <vendor>foyoux</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.github.foyoux.githubactionrunner.settings.AppSettingsState"/>
+        <applicationConfigurable parentId="tools" instance="com.github.foyoux.githubactionrunner.settings.AppSettingsConfigurable"
+                                 id="com.github.foyoux.githubactionrunner.settings.AppSettingsConfigurable"
+                                 displayName="Runner for GitHub Actions"/>
+        
+        <notificationGroup id="GitHub Action Runner Notification"
+                           displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <group id="GithubActionRunner.Group" text="Runner for GitHub Actions" popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            
+            <action id="GithubActionRunner.RunDefault" 
+                    class="com.github.foyoux.githubactionrunner.actions.RunDefaultAction" 
+                    text="Run on GitHub Actions" 
+                    description="Run selected script on GitHub Actions"/>
+                    
+            <action id="GithubActionRunner.RunFreeSpace" 
+                    class="com.github.foyoux.githubactionrunner.actions.RunFreeSpaceAction" 
+                    text="Run on GitHub Actions (Free Disk Space)" 
+                    description="Run selected script on GitHub Actions with Free Disk Space step"/>
+        </group>
+    </actions>
+</idea-plugin>
