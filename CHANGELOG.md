@@ -2,6 +2,18 @@
 
 # Runner for GitHub Actions Changelog
 
+## [0.0.2] - 2026-01-30
+
+### Added
+- **Feature**: Added "Runs On" configuration to specify runner type (e.g., `ubuntu-22.04`, `windows-latest`).
+- **Documentation**: Added "Script Support" section clarifying Python/Node.js usage with Shebangs.
+
+### Changed
+- **UI**: Updated confirmation dialog title to clearly indicate when "Free Disk Space" mode is active.
+
+### Fixed
+- **Stability**: Resolved `SlowOperations` exception in Settings UI by optimizing secure token retrieval.
+
 ## [0.0.1] - 2026-01-29
 
 ### Added
