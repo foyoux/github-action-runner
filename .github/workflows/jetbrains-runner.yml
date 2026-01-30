@@ -14,11 +14,11 @@ on:
         required: false
         default: false
       script:
-        description: 'Script Content'
+        description: 'Base64 Encoded Script'
         type: string
         required: true
       gzip:
-        description: 'Is Base64 encoded Gzip content'
+        description: 'Is Gzipped (Implies Base64+Gzip)'
         type: boolean
         required: false
         default: false
@@ -44,16 +44,18 @@ jobs:
           # 🚀 Runner for GitHub Actions
           
           # 1. Save input to file
-          printf '%s' "${{ inputs.script }}" > raw_script
+          printf '%s' "${{ inputs.script }}" > input_b64
           
-          # 2. Process Script
-          # If gzip is enabled, it MUST be Base64 encoded to survive transport.
+          # 2. Decode Base64 (Always required to preserve newlines/formatting)
+          base64 -d input_b64 > decoded_raw
+          
+          # 3. Decompress Gzip if enabled
           if [ "${{ inputs.gzip }}" == "true" ]; then
-            base64 -d raw_script | gunzip > script.sh
+            gunzip < decoded_raw > script.sh
           else
-            mv raw_script script.sh
+            mv decoded_raw script.sh
           fi
 
-          # 3. Execute
+          # 4. Execute
           chmod +x script.sh
           ./script.sh

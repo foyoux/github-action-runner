@@ -13,7 +13,6 @@ Ideal for tasks requiring high bandwidth (e.g., Docker image mirroring), specifi
 - **Free Disk Space**: One-click option to free up disk space on the GitHub Runner before execution.
 - **Secure Configuration**: GitHub Token is stored safely using the IDE's Credential Store.
 - **Smart Feedback**: Real-time notifications with direct links to live GitHub Job logs.
-
 <!-- Plugin description end -->
 
 ## 📸 Screenshots
@@ -51,11 +50,11 @@ on:
         required: false
         default: false
       script:
-        description: 'Script Content'
+        description: 'Base64 Encoded Script'
         type: string
         required: true
       gzip:
-        description: 'Is Base64 encoded Gzip content'
+        description: 'Is Gzipped (Implies Base64+Gzip)'
         type: boolean
         required: false
         default: false
@@ -81,17 +80,19 @@ jobs:
           # 🚀 Runner for GitHub Actions
           
           # 1. Save input to file
-          printf '%s' "${{ inputs.script }}" > raw_script
+          printf '%s' "${{ inputs.script }}" > input_b64
           
-          # 2. Process Script
-          # If gzip is enabled, it MUST be Base64 encoded to survive transport.
+          # 2. Decode Base64 (Always required to preserve newlines/formatting)
+          base64 -d input_b64 > decoded_raw
+          
+          # 3. Decompress Gzip if enabled
           if [ "${{ inputs.gzip }}" == "true" ]; then
-            base64 -d raw_script | gunzip > script.sh
+            gunzip < decoded_raw > script.sh
           else
-            mv raw_script script.sh
+            mv decoded_raw script.sh
           fi
 
-          # 3. Execute
+          # 4. Execute
           chmod +x script.sh
           ./script.sh
 ```
@@ -136,7 +137,16 @@ Select **Run on GitHub Actions (Free Disk Space)** to perform a cleanup step bef
 ### Manual Execution
 
 You can also manually run scripts from the GitHub Actions UI!
+
 1. Go to your repository's **Actions** tab.
 2. Select **JetBrains Runner**.
 3. Click **Run workflow**.
-4. Paste your script directly into the **Script Content** box (no encoding needed).
+4. Encode your script to Base64 (to preserve newlines and formatting):
+   ```bash
+   # Execute in terminal, paste your script, then press Ctrl+D
+   base64 -w0
+   
+   # Or for a file:
+   base64 -w0 my_script.sh
+   ```
+5. Manually copy the resulting Base64 string and paste it into the **Base64 Encoded Script** box.
