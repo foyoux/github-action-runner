@@ -107,7 +107,7 @@ Go to **Settings/Preferences** > **Tools** > **Runner for GitHub Actions**.
 
 ![Settings Panel](docs/images/settings.png)
 
-1. **GitHub Token**: A Personal Access Token (PAT) with `repo` scope.
+1. **GitHub Token**: [Generate a Token](https://github.com/settings/tokens/new?scopes=repo&description=JetBrains+Runner) (requires `repo` scope).
 2. **Repository**: Target repository (e.g., `foyoux/github-action-runner`).
 3. **Branch**: Branch to trigger (e.g., `main`).
 4. **Workflow Filename**: `jetbrains-runner.yml` (default).

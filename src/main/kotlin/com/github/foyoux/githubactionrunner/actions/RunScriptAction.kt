@@ -35,8 +35,13 @@ abstract class RunScriptAction : AnAction() {
         // 1. Validate Configuration
         val settings = AppSettingsState.instance
         if (settings.retrieveGhToken().isNullOrBlank() || settings.ghRepository.isBlank()) {
-            notify("GitHub Action Runner", "Please configure GitHub Token and Repository.", NotificationType.ERROR) {
-                 ShowSettingsUtil.getInstance().showSettingsDialog(project, AppSettingsConfigurable::class.java)
+            notify("GitHub Action Runner", "Please configure GitHub Token and Repository.", NotificationType.ERROR) { notification ->
+                 notification.addAction(com.intellij.notification.NotificationAction.createSimple("Open Settings") {
+                     ShowSettingsUtil.getInstance().showSettingsDialog(project, AppSettingsConfigurable::class.java)
+                 })
+                 notification.addAction(com.intellij.notification.NotificationAction.createSimple("View Documentation") {
+                     BrowserUtil.browse("https://github.com/foyoux/github-action-runner")
+                 })
             }
             return
         }

@@ -57,6 +57,12 @@ class AppSettingsConfigurable : Configurable {
                         .applyToComponent { isEditable = true }
                         .comment("System type for the runner (e.g., ubuntu-22.04). Can be customized.")
                 }
+                
+                separator()
+                
+                row {
+                    browserLink("View Documentation & Source Code", "https://github.com/foyoux/github-action-runner")
+                }
             }
         }
         return settingsPanel
