@@ -143,8 +143,38 @@ abstract class RunScriptAction : AnAction() {
                     }
                     
                 } catch (ex: Exception) {
+                    val msg = ex.message ?: ""
+                    var is401 = msg.contains("401") || msg.contains("Bad credentials")
+                    var is404 = msg.contains("404") || msg.contains("Not Found")
+
+                    // Check for IntelliJ's specific HTTP exception
+                    if (ex is com.intellij.util.io.HttpRequests.HttpStatusException) {
+                        if (ex.statusCode == 401) is401 = true
+                        if (ex.statusCode == 404) is404 = true
+                    }
+                    
+                    // Fallback: If message is just the URL, it's likely a generic HTTP failure (404/401)
+                    val isGitHubUrl = msg.startsWith("https://api.github.com")
+
+                    val (userMessage, isConfigError) = when {
+                        is401 -> 
+                            "Authentication failed. Please check your GitHub Token." to true
+                        is404 -> 
+                            "Workflow not found. Please check your Repository and Workflow Filename settings." to true
+                        isGitHubUrl ->
+                            "Request failed. Please check your Repository, Workflow Filename, and Token." to true
+                        else -> 
+                            "Failed to trigger workflow: $msg" to false
+                    }
+
                     ApplicationManager.getApplication().invokeLater {
-                        notify("GitHub Action Runner", "Failed to trigger workflow: ${ex.message}", NotificationType.ERROR)
+                        notify("GitHub Action Runner", userMessage, NotificationType.ERROR) { notification ->
+                            if (isConfigError) {
+                                notification.addAction(com.intellij.notification.NotificationAction.createSimple("Open Settings") {
+                                    ShowSettingsUtil.getInstance().showSettingsDialog(project, AppSettingsConfigurable::class.java)
+                                })
+                            }
+                        }
                     }
                 }
             }

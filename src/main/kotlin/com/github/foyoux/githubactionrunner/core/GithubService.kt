@@ -39,20 +39,32 @@ class GithubService {
         
         val url = "https://api.github.com/repos/$repository/actions/workflows/$workflowFile/dispatches"
 
-        HttpRequests.post(url, "application/json")
-            .tuner { connection ->
-                connection.setRequestProperty("Authorization", "Bearer $token")
-                connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
-                connection.setRequestProperty("X-GitHub-Api-Version", "2022-11-28")
-            }
-            .connect { request ->
-                request.write(jsonPayload)
-                val connection = request.connection as HttpURLConnection
-                if (connection.responseCode !in 200..299) {
-                     val errorResponse = request.readString()
-                     throw IllegalStateException("GitHub API Error (${connection.responseCode}): $errorResponse")
+        try {
+            HttpRequests.post(url, "application/json")
+                .tuner { connection ->
+                    connection.setRequestProperty("Authorization", "Bearer $token")
+                    connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
+                    connection.setRequestProperty("X-GitHub-Api-Version", "2022-11-28")
+                }
+                .connect { request ->
+                    request.write(jsonPayload)
+                    val connection = request.connection as HttpURLConnection
+                    if (connection.responseCode !in 200..299) {
+                         val errorResponse = request.readString()
+                         throw IllegalStateException("GitHub API Error (${connection.responseCode}): $errorResponse")
+                    }
+                }
+        } catch (e: Exception) {
+            if (e is com.intellij.util.io.HttpRequests.HttpStatusException) {
+                if (e.statusCode == 404) {
+                    throw RuntimeException("404 Not Found: Workflow '$workflowFile' not found in '$repository'.")
+                }
+                if (e.statusCode == 401) {
+                    throw RuntimeException("401 Unauthorized: Invalid GitHub Token.")
                 }
             }
+            throw e
+        }
     }
     
     fun getLatestRunId(afterTimestamp: Long): Long? {
