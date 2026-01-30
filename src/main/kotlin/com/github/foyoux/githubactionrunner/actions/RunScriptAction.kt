@@ -5,9 +5,11 @@ import com.github.foyoux.githubactionrunner.settings.AppSettingsConfigurable
 import com.github.foyoux.githubactionrunner.settings.AppSettingsState
 import com.github.foyoux.githubactionrunner.ui.RunConfirmDialog
 import com.intellij.ide.BrowserUtil
+import com.intellij.notification.NotificationAction
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.ActionPlaces
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -16,10 +18,8 @@ import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
-import java.time.Instant
-
-import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.util.IconLoader
+import java.time.Instant
 
 abstract class RunScriptAction : AnAction() {
 
@@ -36,10 +36,10 @@ abstract class RunScriptAction : AnAction() {
         val settings = AppSettingsState.instance
         if (settings.retrieveGhToken().isNullOrBlank() || settings.ghRepository.isBlank()) {
             notify("GitHub Action Runner", "Please configure GitHub Token and Repository.", NotificationType.ERROR) { notification ->
-                 notification.addAction(com.intellij.notification.NotificationAction.createSimple("Open Settings") {
+                 notification.addAction(NotificationAction.createSimple("Open Settings") {
                      ShowSettingsUtil.getInstance().showSettingsDialog(project, AppSettingsConfigurable::class.java)
                  })
-                 notification.addAction(com.intellij.notification.NotificationAction.createSimple("View Documentation") {
+                 notification.addAction(NotificationAction.createSimple("View Documentation") {
                      BrowserUtil.browse("https://github.com/foyoux/github-action-runner")
                  })
             }
@@ -170,8 +170,11 @@ abstract class RunScriptAction : AnAction() {
                     ApplicationManager.getApplication().invokeLater {
                         notify("GitHub Action Runner", userMessage, NotificationType.ERROR) { notification ->
                             if (isConfigError) {
-                                notification.addAction(com.intellij.notification.NotificationAction.createSimple("Open Settings") {
+                                notification.addAction(NotificationAction.createSimple("Open Settings") {
                                     ShowSettingsUtil.getInstance().showSettingsDialog(project, AppSettingsConfigurable::class.java)
+                                })
+                                notification.addAction(NotificationAction.createSimple("View Documentation") {
+                                    BrowserUtil.browse("https://github.com/foyoux/github-action-runner")
                                 })
                             }
                         }
