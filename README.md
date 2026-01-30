@@ -1,6 +1,10 @@
 # Runner for GitHub Actions
 
 <!-- Plugin description -->
+[![Version](https://img.shields.io/jetbrains/plugin/v/29981-runner-for-github-actions)](https://plugins.jetbrains.com/plugin/29981-runner-for-github-actions)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/29981-runner-for-github-actions)](https://plugins.jetbrains.com/plugin/29981-runner-for-github-actions)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/foyoux/github-action-runner)
+
 Run selected scripts (or files) directly on GitHub Actions from your JetBrains IDE.
 
 Ideal for tasks requiring high bandwidth (e.g., Docker image mirroring), specific Linux environments, or when you just need a clean cloud environment to run a snippet of code.
