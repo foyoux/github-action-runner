@@ -61,10 +61,15 @@ on:
         type: boolean
         required: false
         default: false
-      base64_content:
-        description: 'Gzipped & Base64 encoded script'
+      script:
+        description: 'Script Content'
         type: string
         required: true
+      gzip:
+        description: 'Is Base64 encoded Gzip content'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   remote-execution:
@@ -85,7 +90,19 @@ jobs:
       - name: Execute Script
         run: |
           # 🚀 Runner for GitHub Actions
-          printf '%s' "${{ inputs.base64_content }}" | base64 -d | gunzip > script.sh
+
+          # 1. Save input to file
+          printf '%s' "${{ inputs.script }}" > raw_script
+
+          # 2. Process Script
+          # If gzip is enabled, it MUST be Base64 encoded to survive transport.
+          if [ "${{ inputs.gzip }}" == "true" ]; then
+            base64 -d raw_script | gunzip > script.sh
+          else
+            mv raw_script script.sh
+          fi
+
+          # 3. Execute
           chmod +x script.sh
           ./script.sh
 ```

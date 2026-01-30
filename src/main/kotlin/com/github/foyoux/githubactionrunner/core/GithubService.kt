@@ -29,7 +29,8 @@ class GithubService {
         
         val inputs = mapOf(
             "free-space" to freeSpace.toString(),
-            "base64_content" to encodedContent,
+            "script" to encodedContent,
+            "gzip" to "true",
             "runs-on" to runsOn
         )
 
