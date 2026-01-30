@@ -17,19 +17,21 @@
     </extensions>
 
     <actions>
-        <group id="GithubActionRunner.Group" text="Runner for GitHub Actions" popup="true">
+        <group id="GithubActionRunner.Group" text="Runner for GitHub Actions" popup="true" icon="/icons/run.svg">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
             
             <action id="GithubActionRunner.RunDefault" 
                     class="com.github.foyoux.githubactionrunner.actions.RunDefaultAction" 
                     text="Run on GitHub Actions" 
-                    description="Run selected script on GitHub Actions"/>
+                    description="Run selected script on GitHub Actions"
+                    icon="/icons/run.svg"/>
                     
             <action id="GithubActionRunner.RunFreeSpace" 
                     class="com.github.foyoux.githubactionrunner.actions.RunFreeSpaceAction" 
                     text="Run on GitHub Actions (Free Disk Space)" 
-                    description="Run selected script on GitHub Actions with Free Disk Space step"/>
+                    description="Run selected script on GitHub Actions with Free Disk Space step"
+                    icon="/icons/run.svg"/>
         </group>
     </actions>
 </idea-plugin>
