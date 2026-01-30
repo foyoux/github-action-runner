@@ -2,6 +2,16 @@
 
 # Runner for GitHub Actions Changelog
 
+## [0.1.0] - 2026-01-30
+
+### Added
+- **UI/UX**: Brand new "Cloud Runner" plugin logo and action icons, supporting both Light and Dark themes.
+- **Workflow**: Enhanced `jetbrains-runner.yml` to support manual script execution directly from GitHub Actions UI (plaintext input).
+
+### Changed
+- **Experience**: Confirmation dialog now displays the specific action icon (Run vs. Cleanup) for better visual feedback.
+- **Optimization**: Simplified workflow inputs by merging `gzip` and `base64` logic. Plugin transport remains optimized (Gzip+Base64).
+
 ## [0.0.2] - 2026-01-30
 
 ### Added
