@@ -2,6 +2,19 @@
 
 # Runner for GitHub Actions Changelog
 
+## [0.1.1] - 2026-01-30
+
+### Added
+- **UX**: Added "View Documentation" link in Settings and error notifications.
+- **UX**: Added a smart "Generate Token" link to the README for easier setup.
+
+### Fixed
+- **Error Handling**: Improved feedback for 401 (Unauthorized) and 404 (Not Found) API errors with direct "Open Settings" actions.
+- **Workflow**: Enforced Base64 encoding for the `script` input in `jetbrains-runner.yml` to ensure formatting (newlines, spaces) is preserved during manual execution.
+
+### Internal
+- **Cleanup**: Optimized code imports and performed general project cleanup.
+
 ## [0.1.0] - 2026-01-30
 
 ### Added
