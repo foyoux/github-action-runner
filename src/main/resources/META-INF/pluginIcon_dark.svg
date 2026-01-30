@@ -1,0 +1,13 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hexagon Base (Runner Environment) - Darker Blue for Dark Theme -->
+  <path d="M20 2L35.5885 11V29L20 38L4.41154 29V11L20 2Z" fill="#1F6FEB"/>
+  <path d="M20 2L35.5885 11V29L20 38L4.41154 29V11L20 2Z" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="2"/>
+  
+  <!-- Terminal Content (Script) -->
+  <path d="M12 14L18 20L12 26" stroke="#E6EDF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="20" y="23" width="8" height="3" fill="#E6EDF3"/>
+  
+  <!-- Play Badge (Execution) - Brighter Green -->
+  <circle cx="28" cy="28" r="10" fill="#238636" stroke="#0D1117" stroke-width="2"/>
+  <path d="M32 28L25.25 31.8971L25.25 24.1029L32 28Z" fill="white"/>
+</svg>

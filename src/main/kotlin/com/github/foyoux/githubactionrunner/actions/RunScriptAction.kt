@@ -19,6 +19,7 @@ import com.intellij.openapi.progress.Task
 import java.time.Instant
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread
+import com.intellij.openapi.util.IconLoader
 
 abstract class RunScriptAction : AnAction() {
 
@@ -79,7 +80,10 @@ abstract class RunScriptAction : AnAction() {
         
         // 3. Confirm Dialog (Custom UI)
         val title = if (freeSpace) "Confirm Run on GitHub Actions (Free Disk Space)" else "Confirm Run on GitHub Actions"
-        val dialog = RunConfirmDialog(project, contentToRun, title)
+        val iconPath = if (freeSpace) "/icons/cleanup.svg" else "/icons/run.svg"
+        val icon = IconLoader.getIcon(iconPath, RunScriptAction::class.java)
+        
+        val dialog = RunConfirmDialog(project, contentToRun, title, icon)
         if (!dialog.showAndGet()) return
 
         // 4. Execute

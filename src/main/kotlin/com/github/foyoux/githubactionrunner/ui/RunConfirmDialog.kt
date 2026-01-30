@@ -10,10 +10,14 @@ import javax.swing.JTextArea
 import com.intellij.ui.components.JBScrollPane
 import java.awt.Dimension
 
+import javax.swing.Icon
+import com.intellij.ui.dsl.builder.RightGap
+
 class RunConfirmDialog(
     project: Project,
     private val scriptContent: String,
-    private val titleText: String = "Confirm Run on GitHub Actions"
+    private val titleText: String = "Confirm Run on GitHub Actions",
+    private val icon: Icon? = null
 ) : DialogWrapper(project) {
 
     init {
@@ -42,6 +46,9 @@ class RunConfirmDialog(
 
         return panel {
             row {
+                if (icon != null) {
+                    icon(icon).gap(RightGap.SMALL)
+                }
                 label("Script Preview:")
             }
             row {

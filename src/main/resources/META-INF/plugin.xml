@@ -31,7 +31,7 @@
                     class="com.github.foyoux.githubactionrunner.actions.RunFreeSpaceAction" 
                     text="Run on GitHub Actions (Free Disk Space)" 
                     description="Run selected script on GitHub Actions with Free Disk Space step"
-                    icon="/icons/run.svg"/>
+                    icon="/icons/cleanup.svg"/>
         </group>
     </actions>
 </idea-plugin>
