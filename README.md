@@ -154,3 +154,12 @@ You can also manually run scripts from the GitHub Actions UI!
    base64 -w0 my_script.sh
    ```
 5. Manually copy the resulting Base64 string and paste it into the **Base64 Encoded Script** box.
+
+---
+
+## 📚 Examples & Best Practices
+
+Check out our **[Examples Directory](examples/README.md)** for practical scripts and tutorials.
+
+*   **[The "Private Repo" Strategy](examples/README.md#the-private-repo-strategy)**: How to avoid configuration hell by using private repositories.
+*   **[Docker Image Mirroring](examples/docker-mirror.md)**: Sync images between registries using GitHub's high-speed network.
